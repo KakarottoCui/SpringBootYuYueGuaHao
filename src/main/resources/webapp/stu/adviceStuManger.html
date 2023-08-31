@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>医生挂号</title>
+
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap-fileupload.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <style>
+        .list-group a {
+            background-color: #393d49;
+            border: 0px;
+            color: white;
+
+        }
+
+        .list-group a:hover {
+            background-color: #12967c;
+            border: 0px;
+            color: white;
+
+        }
+
+    </style>
+
+</head>
+
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <a href="">
+            <div class="layui-logo">网上挂号系统</div>
+        </a>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+
+        <div class="layui-nav">
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <span id="usernameheader">xs-shuai </span></a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a href="userInfo.html">个人中心</a>
+                        </dd>
+                        <dd>
+                            <a href="/login/logout">注销登录</a>
+                        </dd>
+                    </dl>
+                </li>
+
+            </ul>
+
+        </div>
+    </div>
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <div class="list-group">
+                <a href="index.html" class="list-group-item">首页</a>
+                <a href="adviceManger.html" class="list-group-item">挂号咨询</a>
+                <a href="adviceStuManger.html" class="list-group-item active">咨询邀请</a>
+                <a href="courseHistory.html" class="list-group-item">查看公告</a>
+                <a href="noticeBoard.html" class="list-group-item">留言板</a>
+                <a href="userInfo.html" class="list-group-item">个人中心</a>
+            </div>
+        </div>
+    </div>
+    <div class="layui-body" style="padding: 20px;">
+        <!-- 内容主体区域 -->
+        <p class="h3">咨询邀请</p>
+        <div class="h5" style="color: lightgray;">医生邀请您沟通交流</div>
+        <div class="col-md-12">
+            <div>
+
+            </div>
+        </div>
+        <div class="col-md-12" style="margin-top: 15px">
+            <form class="form-inline">
+                <div class="form-group col-md-4">
+                    <label class="sr-only bg-success">咨询标题</label>
+                    <div class="col-md-7 ">
+                        <input type="text" class="form-control" placeholder="咨询标题" id="searchTitle">
+                    </div>
+                </div>
+
+                <button type="button" id="search" class="btn  btn-success">查询</button>
+            </form>
+        </div>
+        <div class="col-md-12" style="margin-top: 5px">
+            <div class="">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>标题</th>
+                        <th>内容</th>
+                        <th>状态</th>
+                        <th>答复</th>
+                        <th>邀请医生</th>
+                        <th>发布时间</th>
+                        <th>答复时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="table"></tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="layui-footer">
+        © 2023 <a href="#">网上挂号系统</a>
+    </div>
+</div>
+<!--模态框-->
+<div class="modal" id="addmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    编辑
+                </h4>
+            </div>
+            <div class="modal-body">
+                <!--添加框-->
+                <div class="form-horizontal">
+                    <input type="hidden" class="form-control" id="aid" value="">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            标题</label>
+                        <div class="col-sm-8">
+                            <input readonly="readonly" type="text" class="form-control" id="title" placeholder="标题">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            内容</label>
+                        <div class="col-sm-8">
+                            <textarea readonly="readonly" class="form-control" id="content" placeholder="内容"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            邀请医生</label>
+                        <div class="col-sm-8">
+                            <textarea readonly="readonly" class="form-control" id="teaname" placeholder="内容"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group" id="set-score">
+                        <label class="col-sm-3 control-label">
+                            答复</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="advice" placeholder="请给邀请你的医生答复"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button id="submit" type="button" class="btn btn-primary">
+                    提交更改
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-fileupload.js"></script>
+<script src="../layui/layui.all.js"></script>
+<script src="../js/myjs.js"></script>
+<script src="../js/md5.js"></script>
+<script>
+    var path;
+    var allpassword;
+    $(function () {
+        shouimg();
+        setTimeout(function (){
+            getTeacher();
+        },2000)
+
+        //添加下是初始化
+        $("#addbutton").click(function () {
+            $("#title").val("");
+            $("#content").val("");
+        })
+        //添加或修改
+        $("#submit").click(function () {
+            update();
+            getTeacher();
+            $("#addmodal").modal('hide');
+        })
+
+        $("#search").click(function () {
+            getTeacher()
+        })
+
+    })
+
+    //修改
+    function update(valid) {
+        //必填项验证
+        var aid = $("#aid").val();
+        var advice = $("#advice").val().trim();
+
+        console.log(path);
+        if (advice.length == 0 ) {
+            layer.msg('请填写完整信息', {
+                time: 1000,
+                btn: ['好的']
+            })
+            return;
+        }
+        var json =
+            {
+                aid: aid,
+                advice:advice,
+                state:2,
+                valid: valid,
+                type:1
+            }
+
+        $.ajax({
+            url: "/advice/updateAdvice",
+            type: "post",
+            cache: false,
+            contentType: "application/json",
+            datatype: "json",
+            data: JSON.stringify(json),
+            success: function (response) {
+                if (response.code == 200) {
+                    layer.msg(response.msg, {
+                        time: 1000,
+                        btn: ['好的']
+                    })
+                } else {
+                    layer.msg(response.msg, {
+                        time: 1000,
+                        btn: ['好的']
+                    })
+                }
+                allpassword = "";
+                getTeacher();
+                $("#aid").val("");
+            }
+            ,
+            error: function (response) {
+                console.log("出错返回: " + response);
+                console.log("出错数据: " + JSON.stringify(response));
+            }
+        });
+
+
+    }
+
+    //添加
+    function insert() {
+        //必填项验证
+        var title = $("#title").val().trim();
+        var content = $("#content").val().trim();
+
+        if (title.length == 0 || content.length == 0) {
+            layer.msg('请填写完整信息', {
+                time: 1000,
+                btn: ['好的']
+            })
+            return;
+        }
+        var json =
+            {
+                title: title,
+                content: content,
+                valid: 1,
+                state:1
+            }
+
+        $.ajax({
+            url: "/advice/addAdvice",
+            type: "post",
+            cache: false,
+            contentType: "application/json",
+            datatype: "json",
+            data: JSON.stringify(json),
+            success: function (response) {
+                if (response.code == 200) {
+                    layer.msg("修改成功", {
+                        time: 1000,
+                        btn: ['好的']
+                    })
+                }
+                getTeacher();
+            }
+            ,
+            error: function (response) {
+                console.log("出错返回: " + response);
+                console.log("出错数据: " + JSON.stringify(response));
+            }
+        });
+
+    }
+
+    //获得教练列表 多条件
+    function getTeacher() {
+        var title = $("#searchTitle").val().trim();
+        var json = {title: title, valid: 1,sid:uid,type:1}
+        console.log(json);
+        $.ajax({
+            url: "/advice/findAdvice",
+            type: "post",
+            cache: false,
+            contentType: "application/json",
+            datatype: "json",
+            data: JSON.stringify(json),
+            success: function (response) {
+                if (response.code == 200) {
+                    //渲染数据
+                    addtr(response.data);
+                }
+            }
+            ,
+            error: function (response) {
+                console.log("出错返回: " + response);
+                console.log("出错数据: " + JSON.stringify(response));
+            }
+        });
+
+    }
+
+    function addtr(data) {
+        $("#table").empty()
+        var tr;
+        for (var i = 0; i < data.length; i++) {
+
+            tr = $("<tr><td>" + (i + 1) + "</td><td>" + data[i].title + "</td>" +
+                "<td>" + data[i].content + "</td>" + "<td>" + ( data[i].state == 1 ? '未答复':'已答复') + "</td>"+
+                "<td>" + (data[i].advice ? data[i].advice: '未答复')+ "</td>" +
+                "<td>" + ( data[i].teacher ? data[i].teacher.teaname : '未答复' ) + "</td>" +
+                "<td>" + datetimeStr(data[i].createdate) + "</td>" +
+                "<td>" + ( data[i].ansdate ?  datetimeStr(data[i].ansdate) : '未答复' ) + "</td>" +
+
+                '<td><input hidden value="' + data[i].aid + '"> '+'<a ' +
+                "data-toggle='modal' data-target='#addmodal' onclick='getDetail(this)'>详情</a></td></tr>'");
+
+            $("#table").append(tr);
+        }
+
+    }
+
+    function getDetail(obj) {
+        var aid = $(obj).parent().find('input').eq(0).val();
+        var json = {aid: aid};
+        $.ajax({
+            url: "/advice/findAdvice",
+            type: "post",
+            cache: false,
+            contentType: "application/json",
+            datatype: "json",
+            data: JSON.stringify(json),
+            success: function (response) {
+                if (response.code == 200) {
+                    showDetail(response.data[0]);
+                }
+            }
+            ,
+            error: function (response) {
+                console.log("出错返回: " + response);
+                console.log("出错数据: " + JSON.stringify(response));
+            }
+
+        })
+    }
+
+    // 删除
+    function remove(obj) {
+        var aid = $(obj).parent().find('input').eq(0).val();
+        var json = {aid: aid,valid:0};
+        $.ajax({
+            url: "/advice/updateAdvice",
+            type: "post",
+            cache: false,
+            contentType: "application/json",
+            datatype: "json",
+            data: JSON.stringify(json),
+            success: function (response) {
+                if (response.code == 200) {
+                    layer.msg("删除成功", {
+                        time: 1000,
+                        btn: ['好的']
+                    })
+                    getTeacher();
+                } else {
+                    layer.msg(response.msg, {
+                        time: 1000,
+                        btn: ['好的']
+                    })
+                }
+
+            }
+            ,
+            error: function (response) {
+                console.log("出错返回: " + response);
+                console.log("出错数据: " + JSON.stringify(response));
+            }
+
+        })
+    }
+
+    function showDetail(data) {
+        $("#aid").val(data.aid);
+        $("#title").val(data.title);
+        $("#content").val(data.content);
+        $("#advice").val(data.advice);
+        $("#teaname").val(data.teacher.teaname);
+        $("#addmodal").modal('show');
+    }
+
+
+    // 日期控件初始化
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#inDate'
+        });
+        laydate.render({
+            elem: '#birthDate'
+        });
+    })
+</script>
+</html>
+

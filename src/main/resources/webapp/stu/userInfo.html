@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <title>个人中心</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap-fileupload.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <style>
+        .list-group a {
+            background-color: #393d49;
+            border: 0px;
+            color: white;
+
+        }
+
+        .list-group a:hover {
+            background-color: #12967c;
+            border: 0px;
+            color: white;
+
+        }
+
+    </style>
+</head>
+
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <a href="">
+            <div class="layui-logo">网上挂号系统</div>
+        </a>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <span
+                        id="usernameheader"> 病人 </span></a>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a href="userInfo.html">个人中心</a>
+                    </dd>
+                    <dd>
+                        <a href="/login/logout">注销登录</a>
+                    </dd>
+
+                </dl>
+            </li>
+
+        </ul>
+    </div>
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <div class="list-group">
+                <a href="index.html" class="list-group-item">首页</a>
+                <a href="adviceManger.html" class="list-group-item">挂号咨询</a>
+                <a href="adviceStuManger.html" class="list-group-item">咨询邀请</a>
+                <a href="courseHistory.html" class="list-group-item">查看公告</a>
+                <a href="noticeBoard.html" class="list-group-item">留言板</a>
+                <a href="userInfo.html" class="list-group-item  active">个人中心</a>
+            </div>
+        </div>
+    </div>
+    <div class="layui-body" style="padding:20px;">
+        <!-- 内容主体区域 -->
+        <div class="form-horizontal">
+            <!--隐藏表单域-->
+            <input type="hidden" class="form-control" id="stuId">
+            <div class="form-group" style="padding-top: 20px;">
+
+                <label class="col-sm-3 control-label">
+                    姓名</label>
+                <div class="col-sm-4" id="stuName" >
+
+                </div>
+               <!-- <div class="col-sm-4">
+                    <a type="button" class="btn btn-info" data-toggle="modal" data-target="#passwordModal">修改密码</a>
+                </div>-->
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">
+                    账号</label>
+                <div class="col-sm-4" id="stuPhone">
+                </div>
+               <!-- <div class="col-sm-4">
+                    <a type="button" class="btn btn-info" data-toggle="modal" data-target="#phoneModal">修改手机号</a>
+                </div>-->
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">
+                    性别</label>
+                <div class="col-sm-8" id="sex">
+                </div>
+            </div>
+<!--            <div class="form-group">-->
+<!--                <label class="col-sm-3 control-label">-->
+<!--                    学习状态</label>-->
+<!--                <div class="col-sm-8" id="stuStust">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <label class="col-sm-3 control-label">-->
+<!--                    驾驶证类型</label>-->
+<!--                <div class="col-sm-8" id="driverClass">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <label class="col-sm-3 control-label">-->
+<!--                    入学日期</label>-->
+<!--                <div class="col-sm-8">-->
+<!--                    <div class="layui-input-inline" id="inDate">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <label class="col-sm-3 control-label">-->
+<!--                    教练</label>-->
+<!--                <div class="col-sm-8" id="teaId">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <label class="col-sm-3 control-label">-->
+<!--                    教练电话</label>-->
+<!--                <div class="col-sm-8" id="teaPhone">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <label class="col-sm-3 control-label">-->
+<!--                    生日</label>-->
+<!--                <div class="col-sm-8" id="birthDate">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <label class="col-sm-3 control-label">-->
+<!--                    照片</label>-->
+<!--                <div class="col-sm-8" id="">-->
+<!--                    <img src="" id="showImg" style="width: 120px; height: 80px;"/>-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="form-group">
+                <label class="col-sm-3 control-label">
+                </label>
+                <div class="col-sm-1">
+                    <a type="button" class="btn btn-info" data-toggle="modal" data-target="#addmodal">修改信息</a>
+                </div>
+<!--                <div class="col-sm-1">-->
+<!--                    <a type="button" class="btn btn-info" data-toggle="modal" data-target="#passwordModal">修改密码</a>-->
+<!--                </div>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="addmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="">
+                    修改
+                </h4>
+            </div>
+            <div class="modal-body">
+                <!--添加框-->
+                <div class="form-horizontal">
+                    <!--隐藏表单域-->
+                    <input type="hidden" class="form-control" id="stuId-e">
+                    <div class="form-group">
+
+                        <label class="col-sm-3 control-label">
+                            姓名</label>
+                        <div class="col-sm-8">
+                            <input autocomplete="false" type="text" class="form-control" id="stuName-e" placeholder="姓名">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            账号</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="stuPhone-e" placeholder="账号">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            密码</label>
+                        <div class="col-sm-8">
+                            <input type="password" value="123456" class="form-control" id="stuPassword-e"
+                                   placeholder="密码">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            性别</label>
+                        <div class="col-sm-8">
+                            <div>
+                                <input type="radio" name="sex" value="0" checked> 男
+                                <input type="radio" name="sex" value="1"> 女
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button id="submit" type="button" class="btn btn-primary">
+                    提交更改
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="layui-footer">
+    © 2023 <a href="#">网上挂号系统</a>
+</div>
+
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-fileupload.js"></script>
+<script src="../layui/layui.all.js"></script>
+<script src="../js/myjs.js"></script>
+<script src="../js/md5.js"></script>
+<script>
+    $(function () {
+        shouimg();
+        getStudent();
+        $("#submit").click(function (){
+
+            var stuid = $("#stuId-e").val().trim();
+            var stuname = $("#stuName-e").val().trim();
+            var stuphone = $("#stuPhone-e").val().trim();
+            var stupwd = $("#stuPassword-e").val().trim();
+            stupwd = hex_md5(stupwd);
+            var stusex = $("input[name='sex']:checked").val();
+
+            if (stuname.length == 0 || stuphone == 0) {
+                layer.msg('请填写完整信息', {
+                    time: 1000,
+                    btn: ['好的']
+                })
+                return;
+            }
+            var json = {
+                stuid: stuid,
+                stuname: stuname,
+                stuphone: stuphone,
+                stusex: stusex,
+                stupwd:stupwd,
+                teaid:1006,
+                stusta:1
+            }
+
+                $.ajax({
+                    url: "/student/updateStudent",
+                    type: "post",
+                    cache: false,
+                    contentType: "application/json",
+                    datatype: "json",
+                    data: JSON.stringify(json),
+                    success: function (response) {
+                        if (response.code == 200) {
+                            layer.msg("修改成功，重新登陆生效", {
+                                time: 1000,
+                                btn: ['好的']
+                            })
+                        } else {
+                            layer.msg(response.msg, {
+                                time: 1000,
+                                btn: ['好的']
+                            })
+                        }
+                        $("#addmodal").modal('hide');
+                    }
+                    ,
+                    error: function (response) {
+                        console.log("出错返回: " + response);
+                        console.log("出错数据: " + JSON.stringify(response));
+                    }
+                });
+
+        });
+        $("#submitPhone").click(updatePhone);
+        getCode();
+    })
+
+
+    //获得验证码
+    function getCode() {
+        $("#getCheckCode").click(function () {
+
+            var phone = $("#codePhone").val().trim();
+            // if (checkPhone(phone)) {
+            //     layer.msg('手机号格式不正确', {
+            //         time: 2000,
+            //         btn: ['返回']
+            //     });
+            //     return;
+            // }
+            settime($("#getCheckCode"));
+            var json = {phone: phone}
+            $.ajax({
+                url: "/login/getPhoneCode",
+                type: "post",
+                cache: false,
+                contentType: "application/json",
+                datatype: "json",
+                data: JSON.stringify(json),
+                success: function (response) {
+                    if (response.code = 200) {
+                        layer.msg('验证码发送成功!', {
+                            time: 2000,
+                            btn: ['返回']
+                        });
+                    }
+                }
+                ,
+                error: function (response) {
+                    console.log("出错返回: " + response);
+                    console.log("出错数据: " + JSON.stringify(response));
+                }
+            });
+        })
+    }
+
+    //修改手机号
+    function updatePhone() {
+        var json = {phone: $("#codePhone").val().trim(), number: $("#getcode").val().trim()}
+        $.ajax({
+            url: "/login/updatePhone",
+            type: "post",
+            cache: false,
+            contentType: "application/json",
+            datatype: "json",
+            data: JSON.stringify(json),
+            success: function (response) {
+                if (response.code = 200) {
+                    layer.msg('修改成功!', {
+                        time: 1000
+                    });
+                } else {
+                    layer.msg('修改成功!', {
+                        time: 1000
+                    });
+                }
+
+            }
+            ,
+            error: function (response) {
+                console.log("出错返回: " + response);
+                console.log("出错数据: " + JSON.stringify(response));
+            }
+        });
+
+
+    }
+
+
+    function updatepassword() {
+        var oldpassword = $("#oldpassword").val().trim();
+        var newpassword = $("#newpassword").val().trim();
+        var confirmpassword = $("#confirmpassword").val().trim();
+        if (oldpassword.length == 0 || newpassword.length == 0 || confirmpassword.length == 0) {
+            layer.msg('填入完整密码', {
+                time: 1000
+            })
+            return;
+        }
+        if (newpassword != confirmpassword) {
+            layer.msg('密码不一致', {
+                time: 1000
+            })
+            return;
+        }
+        var json = {oldpassword: hex_md5(oldpassword), newpassword: hex_md5(newpassword)}
+
+        $.ajax({
+            url: "/login/updatePasswordStudent",
+            type: "post",
+            cache: false,
+            contentType: "application/json",
+            datatype: "json",
+            data: JSON.stringify(json),
+            success: function (response) {
+                if (response.code == 200) {
+                    layer.msg('修改成功', {
+                        time: 1000
+                    })
+                    $('#submitbutton').attr("data-dismiss", "modal");
+                } else {
+                    layer.msg(response.msg, {
+                        time: 1000
+                    })
+                }
+
+            }
+            ,
+            error: function (response) {
+                console.log("出错返回: " + response);
+                console.log("出错数据: " + JSON.stringify(response));
+            }
+
+        })
+    }
+
+
+    function getStudent() {
+        $.ajax({
+            url: "/login/getStudentInfo",
+            type: "post",
+            cache: false,
+            contentType: "application/json",
+            datatype: "json",
+            success: function (response) {
+                if (response.code == 200) {
+                    showDetail(response.data);
+                }
+
+            }
+            ,
+            error: function (response) {
+                console.log("出错返回: " + response);
+                console.log("出错数据: " + JSON.stringify(response));
+            }
+
+        })
+    }
+
+    //显示详情
+    function showDetail(data) {
+        $("#stuId").val(data.stuid);
+        $("#stuName").text(data.stuname)
+        $("#stuPhone").text(data.stuphone);
+        $("#stuPassword").text(data.stupwd);
+        $("#inDate").text(dateString(data.stustartdate));
+        $("#birthDate").text(dateString(data.stubirth));
+        $("#showImg").attr("src", "../img/" + data.stuimg);
+
+        //学习状态
+        $("#stuStust").text(data.stustust);
+        $("#sex").text(getSex(data.stusex));
+
+
+        $("#stuId-e").val(data.stuid);
+        $("#stuName-e").val(data.stuname)
+        $("#stuPhone-e").val(data.stuphone);
+        $("#stuPassword-e").text(data.stupwd);
+
+    }
+
+
+    function updateStudent(json) {
+        $.ajax({
+            url: "/student/updateStudent",
+            type: "post",
+            cache: false,
+            contentType: "application/json",
+            datatype: "json",
+            data: JSON.stringify(json),
+            success: function (response) {
+                if (response.code == 200) {
+                    layer.msg("修改成功", {
+                        time: 1000,
+                        btn: ['好的']
+                    })
+                    getStudentList();
+                } else {
+                    layer.msg(response.msg, {
+                        time: 1000,
+                        btn: ['好的']
+                    })
+                }
+                $("#addmodal").modal('hide');
+            }
+            ,
+            error: function (response) {
+                console.log("出错返回: " + response);
+                console.log("出错数据: " + JSON.stringify(response));
+            }
+        });
+    }
+
+    //验证倒计时
+    var countdown = 60;
+
+    function settime(obj) { //发送验证码倒计时
+        if (countdown == 0) {
+            obj.attr('disabled', false);
+            obj.text("免费获取验证码");
+            countdown = 60;
+            return;
+        } else {
+            obj.attr('disabled', true);
+            obj.text("重新发送(" + countdown + ")");
+            countdown--;
+        }
+        setTimeout(function () {
+                settime(obj)
+            }
+            , 1000)
+    }
+
+    function checkPhone(phone) {
+        if (!(/^1[34578]\d{9}$/.test(phone))) {
+            return false;
+        }
+    }
+</script>
+</body>
+
+</html>

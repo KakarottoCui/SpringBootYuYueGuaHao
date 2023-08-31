@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <title>病人首页</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap-fileupload.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <style>
+        .list-group a{
+            background-color: #393d49;
+            border: 0px;
+            color: white;
+
+        }
+        .list-group a:hover{
+            background-color: #12967c;
+            border: 0px;
+            color: white;
+
+        }
+
+    </style>
+</head>
+
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <a href="">
+            <div class="layui-logo">网上挂号系统</div>
+        </a>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <span id="usernameheader">xs-shuai </span></a>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a href="userInfo.html">个人中心</a>
+                    </dd>
+                    <dd>
+                        <a href="/login/logout">注销登录</a>
+                    </dd>
+                </dl>
+            </li>
+
+        </ul>
+    </div>
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <div class="list-group">
+                <a href="index.html" class="list-group-item  active">首页</a>
+                <a href="adviceManger.html" class="list-group-item">挂号咨询</a>
+                <a href="adviceStuManger.html" class="list-group-item">咨询邀请</a>
+                <a href="courseHistory.html" class="list-group-item">查看公告</a>
+                <a href="noticeBoard.html" class="list-group-item">留言板</a>
+                <a href="userInfo.html" class="list-group-item">个人中心</a>
+            </div>
+        </div>
+    </div>
+    <div class="layui-body" style="padding:20px;">
+        <!-- 内容主体区域 -->
+        <div align="center" style="margin-top: 20px"><h1>欢迎使用网上挂号系统</h1></div>
+        <!-- 内容主体区域 -->
+        <div align="center" style="margin-top: 20px" >
+<!--        <a type="button" href="coursePlan.html" class="btn btn-primary btn-lg">挂号咨询</a>-->
+<!--        <a type="button" href="myPaln.html" class="btn btn-primary btn-lg">我的挂号</a>-->
+<!--        <a type="button" href="courseHistory.html"  class="btn btn-primary btn-lg">个人中心</a>-->
+        </div>
+    </div>
+    <div class="layui-footer">
+        © 2023 <a href="#">网上挂号系统</a>
+    </div>
+</div>
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-fileupload.js"></script>
+<script src="../layui/layui.all.js"></script>
+<script src="../js/myjs.js"></script>
+<script>
+    $(function () {
+        shouimg()
+    })
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>用户管理</title>
+
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap-fileupload.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <style>
+        .list-group a {
+            background-color: #393d49;
+            border: 0px;
+            color: white;
+
+        }
+
+        .list-group a:hover {
+            background-color: #12967c;
+            border: 0px;
+            color: white;
+
+        }
+
+    </style>
+
+</head>
+
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <a href="">
+            <div class="layui-logo">网上挂号系统</div>
+        </a>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+
+        <div class="layui-nav">
+            <!-- Single button -->
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <span
+                            id="usernameheader">singulee </span></a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a href="userInfo.html">个人中心</a>
+                        </dd>
+                        <dd>
+                            <a href="/login/logout">注销登录</a>
+                        </dd>
+                    </dl>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <div class="list-group">
+                <a href="index.html" class="list-group-item ">首页</a>
+                <a href="userManger.html" class="list-group-item active">病人管理</a>
+                <a href="teacherManger.html" class="list-group-item">医生管理</a>
+                <a href="noticeManger.html" class="list-group-item">公告管理</a>
+                <a href="msgManger.html" class="list-group-item">留言管理</a>
+                <a href="orderManager.html" class="list-group-item">挂号管理</a>
+                <a href="userInfo.html" class="list-group-item">个人中心</a>
+            </div>
+        </div>
+    </div>
+    <div class="layui-body" style="padding:20px;">
+        <!-- 内容主体区域 -->
+        <p class="h3">病人管理</p>
+        <div class="col-md-12">
+            <div>
+                <button type="button" class="btn btn-info" id="addbutton" data-toggle="modal" data-target="#addmodal"
+                        aria-label="Left Align">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true">添加</span>
+                </button>
+
+            </div>
+        </div>
+        <div class="col-md-12" style="margin-top: 15px">
+
+            <form class="form-inline">
+                <div class="form-group col-md-3">
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" placeholder="病人姓名" id="stuNameTitle">
+                    </div>
+                </div>
+                <button type="button" id="serach" class="btn  btn-success">查询</button>
+            </form>
+        </div>
+        <div class="col-md-12" style="margin-top: 5px">
+            <div class="">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>姓名</th>
+                        <th>性别</th>
+                        <th>账号</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="table">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="layui-footer">
+        © 2023 <a href="#">网上挂号系统</a>
+    </div>
+</div>
+<!--模态框-->
+<div class="modal" id="addmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    添加
+                </h4>
+            </div>
+            <div class="modal-body">
+                <!--添加框-->
+                <div class="form-horizontal">
+                    <!--隐藏表单域-->
+                    <input type="hidden" class="form-control" id="stuId">
+                    <div class="form-group">
+
+                        <label class="col-sm-3 control-label">
+                            姓名</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="stuName" placeholder="姓名">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            账号</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="stuPhone" placeholder="账号">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            密码</label>
+                        <div class="col-sm-8">
+                            <input type="password" value="123456" class="form-control" id="stuPassword"
+                                   placeholder="密码">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            性别</label>
+                        <div class="col-sm-8">
+                            <div>
+                                <input type="radio" name="sex" value="0" checked> 男
+                                <input type="radio" name="sex" value="1"> 女
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button id="submit" type="button" class="btn btn-primary">
+                    提交更改
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-fileupload.js"></script>
+<script src="../layui/layui.all.js"></script>
+<script src="../js/myjs.js"></script>
+<script src="../js/md5.js"></script>
+<script>
+    //图片路径
+    var path;
+    var password;
+    $(function () {
+        shouimg();
+        //getDriverClass();//渲染驾照类型下拉框
+
+
+        getStudentList();
+        $("#driverClass").change(getTeacher);
+
+
+        $("#submit").click(student);
+        $("#addbutton").click(function () {
+            $("#stuId").val("");
+            $("#stuName").val("")
+            $("#stuPhone").val("");
+        })
+        $("#serach").click(function () {
+            getStudentList();
+        })
+    })
+
+    //查询学员列表
+    function getStudentList() {
+        var name = $("#stuNameTitle").val();//查找名字
+
+        var json = {name: name}
+        console.log(json)
+        $.ajax({
+            url: "/student/getStuList",
+            type: "post",
+            cache: false,
+            contentType: "application/json",
+            datatype: "json",
+            data: JSON.stringify(json),
+            success: function (response) {
+                if (response.code == 200) {
+                    //渲染数据
+                    addtr(response.data);
+                } else {
+                    layer.msg(response.msg, {
+                        time: 1000,
+                        btn: ['好的']
+                    })
+                }
+            }
+            ,
+            error: function (response) {
+                console.log("出错返回: " + response);
+                console.log("出错数据: " + JSON.stringify(response));
+            }
+        });
+
+
+    }
+
+    function getDetail(obj) {
+        var studentId = $(obj).parent().find('input').eq(0).val();
+        var json = {stuid: studentId};
+        $.ajax({
+            url: "/student/getStudent",
+            type: "post",
+            cache: false,
+            contentType: "application/json",
+            datatype: "json",
+            data: JSON.stringify(json),
+            success: function (response) {
+                if (response.code == 200) {
+                    showDetail(response.data);
+                }
+
+            }
+            ,
+            error: function (response) {
+                console.log("出错返回: " + response);
+                console.log("出错数据: " + JSON.stringify(response));
+            }
+
+        })
+    }
+
+    //显示详情
+    function showDetail(data) {
+        $("#stuId").val(data.stuid);
+        $("#stuName").val(data.stuname)
+        $("#stuPhone").val(data.stuphone);
+        allpassword = data.stupwd;
+        $("#stuPassword").val(data.stupwd);
+
+    }
+
+
+    //渲染tr
+    function addtr(data) {
+        $("#table").empty()
+        var tr;
+        for (var i = 0; i < data.length; i++) {
+
+            tr = $("<tr><td>" + (i + 1) + "</td><td>" + data[i].stuName + "</td>" +
+                "<td>" + getSex(data[i].stuSex) + "</td><td>" + data[i].stuPhone + "</td>" +
+
+                "<td><input hidden value='" + data[i].stuId + "'><a data-toggle='modal' data-target='#addmodal' onclick='getDetail(this)'>详情</a></td></tr>'");
+            $("#table").append(tr);
+        }
+
+    }
+
+    //学员修改
+    function updateStudent(json) {
+        $.ajax({
+            url: "/student/updateStudent",
+            type: "post",
+            cache: false,
+            contentType: "application/json",
+            datatype: "json",
+            data: JSON.stringify(json),
+            success: function (response) {
+                if (response.code == 200) {
+                    layer.msg("修改成功", {
+                        time: 1000,
+                        btn: ['好的']
+                    })
+                    getStudentList();
+                } else {
+                    layer.msg(response.msg, {
+                        time: 1000,
+                        btn: ['好的']
+                    })
+                }
+                $("#addmodal").modal('hide');
+            }
+            ,
+            error: function (response) {
+                console.log("出错返回: " + response);
+                console.log("出错数据: " + JSON.stringify(response));
+            }
+        });
+    }
+
+    // 信息管理 添加或修改
+    function student() {
+        var stuid = $("#stuId").val().trim();
+        var stuname = $("#stuName").val().trim();
+        var stuphone = $("#stuPhone").val().trim();
+        var stupwd = $("#stuPassword").val().trim();
+        if (stupwd != password) {
+            stupwd = hex_md5(stupwd);
+        }
+        var stusex = $("input[name='sex']:checked").val();
+
+        if (stuname.length == 0 || stupwd == 0 || stuphone == 0) {
+            layer.msg('请填写完整信息', {
+                time: 1000,
+                btn: ['好的']
+            })
+            return;
+        }
+        var json = {
+            stuid: stuid,
+            stuname: stuname,
+            stuphone: stuphone,
+            stupwd: stupwd,
+            stusex: stusex,
+            teaid:1006,
+            stusta:1
+        }
+        allpassword = "";
+        if ($("#stuId").val() == null || $("#stuId").val().trim().length == 0) {
+            addStudent(json);
+        } else {
+
+            updateStudent(json);
+        }
+    }
+
+    //学员添加
+    function addStudent(json) {
+        $.ajax({
+            url: "/student/addStudent",
+            type: "post",
+            cache: false,
+            contentType: "application/json",
+            datatype: "json",
+            data: JSON.stringify(json),
+            success: function (response) {
+                if (response.code == 200) {
+                    layer.msg('添加成功', {
+                        time: 1000,
+                    })
+                    getStudentList();
+                } else {
+                    layer.msg(response.msg, {
+                        time: 1000,
+                        btn: ['好的']
+                    })
+                }
+                $("#addmodal").modal('hide');
+
+            }
+            ,
+            error: function (response) {
+                console.log("出错返回: " + response);
+                console.log("出错数据: " + JSON.stringify(response));
+            }
+        });
+    }
+
+    //文件上传
+    function fileupload() {
+        var formData = new FormData($("#uploadForm")[0]);
+        $.ajax({
+            url: '/login/upload',
+            type: 'post',
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (respone) {
+                if (respone.code == 200) {
+                    path = respone.data;
+                }
+            },
+            error: function (respone) {
+                return null;
+            }
+        });
+    }
+
+    //获得教练列表  教练列需要二次查询   同时在教练离职 和修改教学类型时 不能有为毕业的病人
+    function getTeacher() {
+        var json = {driverclassId: $("#driverClass").val()}
+        $.ajax({
+            url: "/teacher/getTeacherList",
+            type: "post",
+            cache: false,
+            contentType: "application/json",
+            datatype: "json",
+            data: JSON.stringify(json),
+            success: function (response) {
+                if (response.code == 200) {
+                    addteacherSelect(response.data);
+                }
+            }
+            ,
+            error: function (response) {
+                console.log("出错返回: " + response);
+                console.log("出错数据: " + JSON.stringify(response));
+            }
+        });
+    }
+
+    //获得驾照类型
+    function getDriverClass() {
+        $.ajax({
+            url: "/driver/getDriverList",
+            type: "post",
+            cache: false,
+            contentType: "application/json",
+            datatype: "json",
+            success: function (response) {
+                if (response.code == 200) {
+                    addDriverClassforSelect(response.data);
+                }
+            }
+            ,
+            error: function (response) {
+                console.log("出错返回: " + response);
+                console.log("出错数据: " + JSON.stringify(response));
+            }
+        });
+
+    }
+
+    //驾照类型添加下拉框
+    function addDriverClassforSelect(data) {
+        $("#driverClass").empty();
+        $("#driverTitle").empty();
+        var option;
+        var optiontile;
+        option = "<option value=\"\">不限</option>";
+        $("#driverTitle").append(option);
+        for (var i = 0; i < data.length; i++) {
+            option = $("<option value='" + data[i].driverid + "'>" + data[i].driverdescription + "</option>")
+            optiontile = $("<option value='" + data[i].driverid + "'>" + data[i].driverdescription + "</option>")
+            $("#driverClass").append(option);
+            $("#driverTitle").append(optiontile);
+        }
+    }
+
+    //渲染医生下拉框
+    function addteacherSelect(data) {
+        $("#teaId").empty();
+        var option;
+        for (var i = 0; i < data.length; i++) {
+            option = $("<option value='" + data[i].teaId + "'>" + data[i].teaName + "</option>")
+            $("#teaId").append(option);
+        }
+    }
+
+
+    //日期控件初始化函数
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#inDate'
+        });
+
+        laydate.render({
+            elem: '#birthDate'
+        });
+
+        laydate.render({
+            elem: '#outDate'
+        });
+    })
+
+</script>
+</html>

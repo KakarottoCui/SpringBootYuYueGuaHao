@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.singulee.carschool.pojo.AdviceMapper">
+
+    <resultMap type="com.singulee.carschool.pojo.Advice" id="AdviceMap">
+        <result property="aid" column="aid" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="advice" column="advice" jdbcType="VARCHAR"/>
+        <result property="score" column="score" jdbcType="INTEGER"/>
+        <result property="sid" column="sid" jdbcType="INTEGER"/>
+        <result property="tid" column="tid" jdbcType="INTEGER"/>
+        <result property="state" column="state" jdbcType="INTEGER"/>
+        <result property="valid" column="valid" jdbcType="INTEGER"/>
+        <result property="createdate" column="createDate" jdbcType="TIMESTAMP"/>
+        <result property="ansdate" column="ansDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="AdviceMap">
+        select
+          aid, title, content, advice, score, sid, tid, state, valid, createDate, ansDate,type
+        from advice
+        where aid = #{aid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="AdviceMap">
+        select
+          aid, title, content, advice, score, sid, tid, state, valid, createDate, ansDate
+        from advice
+        <where>
+            <if test="advice.aid != null">
+                and aid = #{advice.aid}
+            </if>
+            <if test="advice.title != null and advice.title != ''">
+                and title = #{advice.title}
+            </if>
+            <if test="advice.content != null and advice.content != ''">
+                and content = #{advice.content}
+            </if>
+            <if test="advice.advice != null and advice.advice != ''">
+                and advice = #{advice.advice}
+            </if>
+            <if test="advice.score != null">
+                and score = #{advice.score}
+            </if>
+            <if test="advice.sid != null">
+                and sid = #{advice.sid}
+            </if>
+            <if test="advice.tid != null">
+                and tid = #{advice.tid}
+            </if>
+            <if test="advice.state != null">
+                and state = #{advice.state}
+            </if>
+            <if test="advice.valid != null">
+                and valid = #{advice.valid}
+            </if>
+            <if test="advice.createdate != null">
+                and createDate = #{advice.createdate}
+            </if>
+            <if test="advice.ansdate != null">
+                and ansDate = #{advice.ansdate}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+    
+        <!--查询全部数据-->
+    <select id="queryAll" resultMap="AdviceMap">
+        select
+          aid, title, content, advice, score, sid, tid, state, valid, createDate, ansDate,type
+        from advice
+        <where>
+            <if test="aid != null">
+                and aid = #{aid}
+            </if>
+            <if test="title != null and title != ''">
+                and title like '%${title}%'
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="advice != null and advice != ''">
+                and advice = #{advice}
+            </if>
+            <if test="score != null">
+                and score = #{score}
+            </if>
+            <if test="sid != null">
+                and sid = #{sid}
+            </if>
+            <if test="tid != null">
+                and tid = #{tid}
+            </if>
+            <if test="state != null">
+                and state = #{state}
+            </if>
+            <if test="valid != null">
+                and valid = #{valid}
+            </if>
+            <if test="createdate != null">
+                and createDate = #{createdate}
+            </if>
+            <if test="ansdate != null">
+                and ansDate = #{ansdate}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+        </where>
+    </select>
+    
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from advice
+        <where>
+            <if test="aid != null">
+                and aid = #{aid}
+            </if>
+            <if test="title != null and title != ''">
+                and title = #{title}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="advice != null and advice != ''">
+                and advice = #{advice}
+            </if>
+            <if test="score != null">
+                and score = #{score}
+            </if>
+            <if test="sid != null">
+                and sid = #{sid}
+            </if>
+            <if test="tid != null">
+                and tid = #{tid}
+            </if>
+            <if test="state != null">
+                and state = #{state}
+            </if>
+            <if test="valid != null">
+                and valid = #{valid}
+            </if>
+            <if test="createdate != null">
+                and createDate = #{createdate}
+            </if>
+            <if test="ansdate != null">
+                and ansDate = #{ansdate}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="aid" useGeneratedKeys="true">
+        insert into advice(title, content, advice, score, sid, tid, state, valid, createDate, ansDate,type)
+        values (#{title}, #{content}, #{advice}, #{score}, #{sid}, #{tid}, #{state}, #{valid}, #{createdate}, #{ansdate},#{type})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="aid" useGeneratedKeys="true">
+        insert into advice(title, content, advice, score, sid, tid, state, valid, createDate, ansDate)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.title}, #{entity.content}, #{entity.advice}, #{entity.score}, #{entity.sid}, #{entity.tid}, #{entity.state}, #{entity.valid}, #{entity.createdate}, #{entity.ansdate})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="aid" useGeneratedKeys="true">
+        insert into advice(title, content, advice, score, sid, tid, state, valid, createDate, ansDate)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.title}, #{entity.content}, #{entity.advice}, #{entity.score}, #{entity.sid}, #{entity.tid}, #{entity.state}, #{entity.valid}, #{entity.createdate}, #{entity.ansdate})
+        </foreach>
+        on duplicate key update
+        title = values(title),
+        content = values(content),
+        advice = values(advice),
+        score = values(score),
+        sid = values(sid),
+        tid = values(tid),
+        state = values(state),
+        valid = values(valid),
+        createDate = values(createDate),
+        ansDate = values(ansDate)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update advice
+        <set>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="advice != null and advice != ''">
+                advice = #{advice},
+            </if>
+            <if test="score != null">
+                score = #{score},
+            </if>
+            <if test="sid != null">
+                sid = #{sid},
+            </if>
+            <if test="tid != null">
+                tid = #{tid},
+            </if>
+            <if test="state != null">
+                state = #{state},
+            </if>
+            <if test="valid != null">
+                valid = #{valid},
+            </if>
+            <if test="createdate != null">
+                createDate = #{createdate},
+            </if>
+            <if test="ansdate != null">
+                ansDate = #{ansdate},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+        </set>
+        where aid = #{aid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from advice where aid = #{aid}
+    </delete>
+
+</mapper>
+

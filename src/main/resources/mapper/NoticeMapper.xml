@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.singulee.carschool.pojo.NoticeMapper">
+
+    <resultMap type="com.singulee.carschool.pojo.Notice" id="NoticeMap">
+        <result property="nid" column="nid" jdbcType="INTEGER"/>
+        <result property="sendid" column="sendId" jdbcType="INTEGER"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="createdate" column="createDate" jdbcType="TIMESTAMP"/>
+        <result property="valid" column="valid" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="NoticeMap">
+        select
+          nid, sendId, content, createDate, valid, title
+        from notice
+        where nid = #{nid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="NoticeMap">
+        select
+          nid, sendId, content, createDate, valid, title
+        from notice
+        <where>
+            <if test="notice.nid != null">
+                and nid = #{notice.nid}
+            </if>
+            <if test="notice.sendid != null">
+                and sendId = #{notice.sendid}
+            </if>
+            <if test="notice.content != null and notice.content != ''">
+                and content = #{notice.content}
+            </if>
+            <if test="notice.createdate != null">
+                and createDate = #{notice.createdate}
+            </if>
+            <if test="notice.valid != null">
+                and valid = #{notice.valid}
+            </if>
+            <if test="notice.title != null and notice.title != ''">
+                and title = #{notice.title}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+    
+        <!--查询全部数据-->
+    <select id="queryAll" resultMap="NoticeMap">
+        select
+          nid, sendId, content, createDate, valid, title
+        from notice
+        <where>
+            <if test="nid != null">
+                and nid = #{nid}
+            </if>
+            <if test="sendid != null">
+                and sendId = #{sendid}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="createdate != null">
+                and createDate = #{createdate}
+            </if>
+            <if test="valid != null">
+                and valid = #{valid}
+            </if>
+            <if test="title != null and title != ''">
+                and title like '%${title}%'
+            </if>
+        </where>
+    </select>
+    
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from notice
+        <where>
+            <if test="nid != null">
+                and nid = #{nid}
+            </if>
+            <if test="sendid != null">
+                and sendId = #{sendid}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="createdate != null">
+                and createDate = #{createdate}
+            </if>
+            <if test="valid != null">
+                and valid = #{valid}
+            </if>
+            <if test="title != null and title != ''">
+                and title = #{title}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="nid" useGeneratedKeys="true">
+        insert into notice(sendId, content, createDate, valid, title)
+        values (#{sendid}, #{content}, #{createdate}, #{valid}, #{title})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="nid" useGeneratedKeys="true">
+        insert into notice(sendId, content, createDate, valid, title)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.sendid}, #{entity.content}, #{entity.createdate}, #{entity.valid}, #{entity.title})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="nid" useGeneratedKeys="true">
+        insert into notice(sendId, content, createDate, valid, title)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.sendid}, #{entity.content}, #{entity.createdate}, #{entity.valid}, #{entity.title})
+        </foreach>
+        on duplicate key update
+        sendId = values(sendId),
+        content = values(content),
+        createDate = values(createDate),
+        valid = values(valid),
+        title = values(title)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update notice
+        <set>
+            <if test="sendid != null">
+                sendId = #{sendid},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="createdate != null">
+                createDate = #{createdate},
+            </if>
+            <if test="valid != null">
+                valid = #{valid},
+            </if>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+        </set>
+        where nid = #{nid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from notice where nid = #{nid}
+    </delete>
+
+</mapper>
+

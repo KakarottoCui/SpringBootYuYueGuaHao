@@ -1,7 +1,7 @@
 # SpringBootYuYueGuaHao
  基于JAVA SpringBoot和HTML医院预约挂号管理系统
 
-演示视频链接：https://live.csdn.net/v/324457
+演示视频链接：https://www.bilibili.com/video/BV1jh4y1m7Tt/
 
 实现的功能
 
